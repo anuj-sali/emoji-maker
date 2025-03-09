@@ -4,6 +4,7 @@ export interface Emoji {
   id: string;
   url: string;
   liked?: boolean;
+  likesCount: number;
 }
 
 export function useEmojiGenerator() {

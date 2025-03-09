@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { LoadingSkeleton } from './loading-skeleton';
 
 interface EmojiGridProps {
-  emojis: { id: string; url: string }[];
+  emojis: { id: string; url: string; likesCount: number }[];
   isGenerating?: boolean;
 }
 
@@ -73,46 +73,53 @@ export function EmojiGrid({ emojis, isGenerating = false }: EmojiGridProps) {
         </div>
       )}
       {validEmojis.map((emoji) => (
-        <div 
-          key={emoji.id}
-          className="relative aspect-square rounded-lg overflow-hidden bg-muted transition-transform hover:scale-105"
-          onMouseEnter={() => setHoveredId(emoji.id)}
-          onMouseLeave={() => setHoveredId(null)}
-        >
-          <Image
-            src={emoji.url}
-            alt={`Generated emoji ${emoji.id}`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            priority={false}
-          />
-          {hoveredId === emoji.id && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2">
-              <button
-                onClick={() => handleDownload(emoji.url)}
-                className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition"
-                aria-label="Download emoji"
-              >
-                <Download className="w-5 h-5 text-white" />
-              </button>
-              <button
-                onClick={() => toggleLike(emoji.id)}
-                className={`p-2 rounded-full transition ${
-                  likedEmojis.has(emoji.id) 
-                    ? 'bg-red-500 hover:bg-red-600' 
-                    : 'bg-white/20 hover:bg-white/30'
-                }`}
-                aria-label="Like emoji"
-              >
-                <Heart 
-                  className={`w-5 h-5 ${
-                    likedEmojis.has(emoji.id) ? 'text-white fill-current' : 'text-white'
-                  }`} 
-                />
-              </button>
-            </div>
-          )}
+        <div key={emoji.id} className="relative flex flex-col">
+          <div 
+            className="relative aspect-square rounded-lg overflow-hidden bg-muted transition-transform hover:scale-105"
+            onMouseEnter={() => setHoveredId(emoji.id)}
+            onMouseLeave={() => setHoveredId(null)}
+          >
+            <Image
+              src={emoji.url}
+              alt={`Generated emoji ${emoji.id}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              priority={false}
+            />
+            {hoveredId === emoji.id && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2">
+                <button
+                  onClick={() => handleDownload(emoji.url)}
+                  className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition"
+                  aria-label="Download emoji"
+                >
+                  <Download className="w-5 h-5 text-white" />
+                </button>
+                <button
+                  onClick={() => toggleLike(emoji.id)}
+                  className={`p-2 rounded-full transition ${
+                    likedEmojis.has(emoji.id) 
+                      ? 'bg-red-500 hover:bg-red-600' 
+                      : 'bg-white/20 hover:bg-white/30'
+                  }`}
+                  aria-label="Like emoji"
+                >
+                  <Heart 
+                    className={`w-5 h-5 ${
+                      likedEmojis.has(emoji.id) ? 'text-white fill-current' : 'text-white'
+                    }`} 
+                  />
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="flex justify-end mt-2 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <Heart className="w-4 h-4" />
+              {emoji.likesCount + (likedEmojis.has(emoji.id) ? 1 : 0)}
+            </span>
+          </div>
         </div>
       ))}
     </div>

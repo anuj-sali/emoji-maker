@@ -5,7 +5,7 @@ import { EmojiForm } from '@/components/ui/emoji-form';
 import { EmojiGrid } from '@/components/ui/emoji-grid';
 
 export default function Home() {
-  const [emojis, setEmojis] = useState<{ id: string; url: string }[]>([]);
+  const [emojis, setEmojis] = useState<{ id: string; url: string; likesCount: number }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,8 +14,6 @@ export default function Home() {
     setError(null);
     
     try {
-      console.log('Sending request with prompt:', prompt);
-
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 
@@ -25,7 +23,6 @@ export default function Home() {
       });
 
       const data = await response.json();
-      console.log('API Response:', data);
 
       if (!response.ok) {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -37,7 +34,8 @@ export default function Home() {
 
       const newEmoji = {
         id: Date.now().toString(),
-        url: data.output
+        url: data.output,
+        likesCount: 0 // Initialize likes count
       };
 
       setEmojis(prev => [newEmoji, ...prev]);

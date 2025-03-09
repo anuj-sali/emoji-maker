@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Replicate from 'replicate';
 import { ReplicateResponse } from '@/app/types/api';
+import { saveImage } from '@/lib/saveImage';
 
 export async function POST(request: Request) {
   try {
@@ -51,53 +52,20 @@ export async function POST(request: Request) {
     const output = finalPrediction.output;
     console.log('5. Output data:', JSON.stringify(output, null, 2));
 
-    // Make a outputs folder in parent directory if not present & store the output file there:
-    const fs = require('fs');
-    const path = require('path');
-    const outputDir = path.join(__dirname, '..', '..', '..', 'outputs');
-
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir);
-    }
-
-    // Ensure output(str1) is a string (URL) before saving
     const str1: string = Array.isArray(output) ? output[0] : output;
     if (typeof str1 !== 'string' || !str1.startsWith('http')) {
       throw new Error('Invalid output format from prediction');
     }
 
-    // Fetch the image data
-    const response = await fetch(str1);
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    // Save the image and get the local path
+    const savedImagePath = await saveImage(str1, prompt);
+    console.log('Image saved to:', savedImagePath);
 
-    // name the image as the prompt_img:
-    const outputFileName = `${prompt.replace(/\s+/g, '_')}.png`;
-    const outputPath = path.join(outputDir, outputFileName);
-
-    fs.writeFileSync(outputPath, buffer);
-    console.log(`Image saved to ${outputPath}`);
-
-
-    if (!output) {
-      throw new Error('No output received from prediction');
-    }
-
-    let outputUrl: string | null = null;
-
-    if (Array.isArray(output) && output.length > 0) {
-      outputUrl = output[0];
-    } else if (typeof output === 'string') {
-      outputUrl = output;
-    }
-
-    console.log('6. Extracted URL:', outputUrl);
-
-    if (!outputUrl || typeof outputUrl !== 'string' || !outputUrl.startsWith('http')) {
-      throw new Error('Failed to get valid image URL from response');
-    }
-
-    return NextResponse.json({ output: outputUrl });
+    // Still return the original URL for the frontend
+    return NextResponse.json({ 
+      output: str1,
+      localPath: savedImagePath 
+    });
 
   } catch (error) {
     console.error('API Error:', {

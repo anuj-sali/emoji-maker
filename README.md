@@ -1,40 +1,106 @@
-<<<<<<< HEAD
-# emoji-maker
-=======
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+
+
+# AI Emoji Generator
+
+Generate custom emojis using AI powered by Replicate's SDXL Emoji model. Built with Next.js, Tailwind CSS, and ShadcnUI.
+
+![Emoji Generator Demo](public/file.svg)
+
+## Features
+
+- 🎨 Generate custom emojis from text descriptions
+- 💾 Download generated emojis
+- ❤️ Like and save favorite emojis
+- 📱 Responsive grid layout
+- ⚡ Real-time generation status updates
+- 🎯 Error handling and loading states
+
+## Tech Stack
+
+- [Next.js 14](https://nextjs.org/) - React framework
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [ShadcN UI](https://ui.shadcn.com/) - UI components
+- [Clerk](https://clerk.com/) - Authentication
+- [Replicate](https://replicate.com/) - AI model hosting
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Lucide Icons](https://lucide.dev/) - Icons
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+- Replicate API key
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/emoji-maker.git
+cd emoji-maker
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Create a `.env` file in the root directory:
+```bash
+REPLICATE_API_TOKEN=your_replicate_api_token_here
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+emoji-maker/
+├── app/                   # Next.js app directory
+│   ├── api/              # API routes
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Home page
+├── components/           # React components
+│   └── ui/              # UI components
+├── lib/                  # Utility functions
+├── public/              # Static assets
+└── types/               # TypeScript types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+1. Enter a text description of the emoji you want to generate
+2. Click "Generate Emoji" and wait for the AI to create your emoji
+3. Download or like generated emojis
+4. View all your generated emojis in the grid below
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
->>>>>>> f80cc9b (Initial commit from Create Next App)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Replicate](https://replicate.com/) for hosting the SDXL Emoji model
+- [ShadcN](https://ui.shadcn.com/) for the beautiful UI components
+- [Vercel](https://vercel.com/) for hosting and deployment
+
+## Contact
+
+Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
+
+Project Link: [https://github.com/yourusername/emoji-maker](https://github.com/yourusername/emoji-maker)

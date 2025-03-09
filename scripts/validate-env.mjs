@@ -1,8 +1,11 @@
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
+import { resolve } from 'path';
 
 async function validateEnvironment() {
-  dotenv.config();
+  // Load both .env and .env.local files
+  dotenv.config(); // default .env
+  dotenv.config({ path: resolve(process.cwd(), '.env.local') }); // .env.local
 
   console.log('Validating environment setup...');
 

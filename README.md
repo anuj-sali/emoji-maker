@@ -5,7 +5,7 @@
 
 Generate custom emojis using AI powered by Replicate's SDXL Emoji model. Built with Next.js, Tailwind CSS, and ShadcnUI.
 
-![Emoji Generator Demo](public/file.svg)
+![Emoji Generator Demo](public/emoji-demo.png)
 
 ## Features
 

@@ -1,0 +1,136 @@
+NPM RUN DEV - Execution Flow Analysis
+===================================
+
+1. INITIAL COMMAND EXECUTION
+---------------------------
+1.1. `npm run dev` is executed in terminal
+1.2. npm looks up "dev" script in package.json:
+    → "dev": "npm run validate-env && next dev"
+1.3. This is a compound command that runs two scripts sequentially:
+    a. validate-env
+    b. next dev
+
+2. ENVIRONMENT VALIDATION (validate-env.mjs)
+------------------------------------------
+2.1. Script Location: scripts/validate-env.mjs
+2.2. Execution Steps:
+    a. Loads environment variables from:
+       - .env
+       - .env.local
+    b. Validates REPLICATE_API_TOKEN:
+       - Checks if token exists
+       - Validates token with Replicate API
+    c. Exits with code 1 if validation fails
+    d. Proceeds if validation succeeds
+
+3. NEXT.JS DEV SERVER STARTUP
+----------------------------
+3.1. Next.js initialization:
+    a. Loads next.config.js
+    b. Configures image optimization
+    c. Sets up API routes
+
+3.2. File Processing:
+    a. Compiles TypeScript files
+    b. Processes CSS/Tailwind
+    c. Sets up hot module replacement
+
+4. APPLICATION INITIALIZATION
+---------------------------
+4.1. Root Layout Loading (app/layout.tsx):
+    - Sets up global styles
+    - Initializes Clerk authentication
+    - Configures metadata
+
+4.2. Page Component Loading (app/page.tsx):
+    - Initializes state:
+      → emojis[]
+      → isLoading
+      → error
+    - Sets up event handlers:
+      → handleGenerateEmoji()
+
+5. API ROUTES SETUP
+------------------
+5.1. Generate API (app/api/generate/route.ts):
+    - Configures POST endpoint
+    - Sets up Replicate client
+    - Handles emoji generation requests
+
+6. COMPONENT INITIALIZATION
+--------------------------
+6.1. UI Components:
+    - EmojiForm
+    - EmojiGrid
+    - Loading states
+    - Error handlers
+
+7. DEVELOPMENT FEATURES
+----------------------
+7.1. Active Features:
+    - Hot Module Replacement (HMR)
+    - Fast Refresh
+    - Error Overlay
+    - Source Maps
+
+8. WATCH MODE
+------------
+8.1. File Watchers:
+    - TypeScript files
+    - React components
+    - CSS/Tailwind changes
+    - Configuration files
+
+9. DEBUGGING & LOGGING
+---------------------
+9.1. Console Output:
+    - Compilation status
+    - Runtime errors
+    - API responses
+    - Environment validation
+
+10. ERROR SCENARIOS
+-----------------
+10.1. Possible Failures:
+     - Environment validation fails
+     - TypeScript compilation errors
+     - Runtime errors
+     - API configuration issues
+
+11. SUCCESS CRITERIA
+------------------
+11.1. Server Running:
+     - Development server starts
+     - No compilation errors
+     - Environment validated
+     - API routes accessible
+     - Components rendered
+
+12. AVAILABLE ENDPOINTS
+---------------------
+12.1. Main Routes:
+     - / (Home page)
+     - /api/generate (Emoji generation)
+
+12.2. Development Routes:
+     - /_next/static (Static assets)
+     - /_next/image (Image optimization)
+
+13. DEVELOPMENT SERVER DETAILS
+----------------------------
+13.1. Default Configuration:
+     - Port: 3000
+     - Host: localhost
+     - HMR WebSocket: Enabled
+     - API Route Handler: Enabled
+
+14. MONITORING POINTS
+-------------------
+14.1. Key Metrics:
+     - Compilation time
+     - API response times
+     - Image generation latency
+     - Memory usage
+     - Error rates
+
+Note: This flow assumes all dependencies are installed and environment variables are properly configured. Any missing dependencies or configuration issues will interrupt this flow and require resolution before proceeding.

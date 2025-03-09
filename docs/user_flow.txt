@@ -1,0 +1,181 @@
+USER FLOW ANALYSIS - EMOJI GENERATION
+===================================
+
+1. USER INPUT PHASE
+------------------
+1.1. User Interaction with EmojiForm:
+    - User focuses on input field
+    - Types prompt text
+    - Submit button becomes enabled (disabled state lifts when prompt has content)
+    Location: components/ui/emoji-form.tsx
+
+1.2. Form State Management:
+    - Local state tracks:
+      → prompt (string)
+      → isLoading (boolean)
+      → error (string | null)
+    - Input validation occurs on change
+    - Submit button updates visual state based on validation
+
+2. FORM SUBMISSION FLOW
+----------------------
+2.1. Submit Event Triggered:
+    - preventDefault() called on form submission
+    - isLoading set to true
+    - Error state cleared
+    - UI updates:
+      → Input field disabled
+      → Submit button shows loading spinner
+      → "Generate" text changes to "Generating..."
+
+3. CLIENT-SIDE PROCESSING
+------------------------
+3.1. handleGenerateEmoji() in page.tsx:
+    - Receives prompt string
+    - Prepares API request
+    - Updates global loading state
+    - Manages error handling
+
+3.2. State Management:
+    - Multiple loading states tracked:
+      → Form level loading
+      → Page level loading
+      → API request status
+
+4. API REQUEST FLOW
+------------------
+4.1. Network Request (/api/generate):
+    - Fetch API called with:
+      → POST method
+      → Content-Type header
+      → Prompt in request body
+    - Request sent to Next.js API route
+
+4.2. Server-Side Processing:
+    - API route validates request
+    - Connects to Replicate API
+    - Initiates emoji generation
+    - Waits for completion
+    - Returns URL or error
+
+5. RESPONSE HANDLING
+-------------------
+5.1. Success Path:
+    - Response received from API
+    - New emoji object created:
+      → Unique ID generated
+      → URL stored
+      → Initial likes count set
+    - Emoji added to grid
+    - Form reset
+    - Loading states cleared
+
+5.2. Error Path:
+    - Error caught and formatted
+    - Error state updated
+    - User feedback displayed
+    - Loading states cleared
+    - Form remains populated
+
+6. UI UPDATES
+------------
+6.1. Visual Feedback:
+    - Loading spinner during generation
+    - Success/error notifications
+    - Grid updates with new emoji
+    - Smooth transitions/animations
+
+6.2. Grid Management:
+    - New emoji appears at start of grid
+    - Grid reflows with animation
+    - Image lazy loading handled
+    - Hover states enabled
+
+7. INTERACTION STATES
+--------------------
+7.1. During Generation:
+    - Form disabled
+    - Loading indicators active
+    - Previous emojis still interactive
+    - Grid maintains functionality
+
+7.2. Post Generation:
+    - Form re-enabled
+    - New emoji interactive
+    - Download/like features available
+    - Share capabilities active
+
+8. ERROR HANDLING
+----------------
+8.1. Possible Error Scenarios:
+    - Empty prompt
+    - API token invalid
+    - Network failure
+    - Generation timeout
+    - Invalid response format
+
+8.2. Error Recovery:
+    - Clear error messages
+    - Retry capabilities
+    - State restoration
+    - Graceful degradation
+
+9. PERFORMANCE CONSIDERATIONS
+---------------------------
+9.1. Client-Side:
+    - Debounced submissions
+    - Optimistic updates
+    - Image optimization
+    - State caching
+
+9.2. Network:
+    - Request timeout handling
+    - Connection error recovery
+    - Progress indicators
+    - Bandwidth optimization
+
+10. USER FEEDBACK LOOP
+--------------------
+10.1. Success Indicators:
+      - Visual confirmation
+      - Grid update
+      - Form reset
+      - Ready for next input
+
+10.2. Error Feedback:
+      - Error message display
+      - Recovery options
+      - Clear next steps
+      - Preserved input
+
+11. ACCESSIBILITY CONSIDERATIONS
+------------------------------
+11.1. During Generation:
+      - ARIA states updated
+      - Focus management
+      - Screen reader notifications
+      - Keyboard navigation maintained
+
+11.2. Post Generation:
+      - Focus returned to input
+      - New content announced
+      - Interactive elements properly labeled
+      - Keyboard shortcuts active
+
+12. STATE PERSISTENCE
+-------------------
+12.1. Local State:
+      - Generated emojis
+      - User preferences
+      - Form history
+      - Error states
+
+12.2. Session Management:
+      - Generation history
+      - User interactions
+      - Temporary storage
+      - Cache management
+
+Note: This flow assumes optimal conditions. Network latency, API response times, 
+and system resources may affect actual user experience. Implementation includes 
+appropriate error handling and loading states for all scenarios.
